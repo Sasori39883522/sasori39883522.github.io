@@ -1,0 +1,125 @@
+/* Our default values set as CSS variables */
+:root {
+    --color-bg: #FF5733;
+    --color-text-main: white;
+    --color-primary: #ffff00;
+    --wrapper-height: 87vh;
+    --image-max-width: 300px;
+    --image-margin: 3rem;
+    --font-family: "HK Grotesk";
+    --font-family-header: "HK Grotesk";
+}
+
+/* Basic page style resets */
+* {
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* Import fonts */
+@font-face {
+    font-family: HK Grotesk;
+    src: url("https://cdn.glitch.me/605e2a51-d45f-4d87-a285-9410ad350515%2FHKGrotesk-Regular.otf?v=1603136326027") format("opentype");
+}
+
+@font-face {
+    font-family: HK Grotesk;
+    font-weight: bold;
+    src: url("https://cdn.glitch.me/605e2a51-d45f-4d87-a285-9410ad350515%2FHKGrotesk-Bold.otf?v=1603136323437") format("opentype");
+}
+
+body {
+    font-family: HK Grotesk;
+    background-color: var(--color-bg);
+}
+
+body.page-subtitles {
+    color: white;
+    margin: 0;
+
+    &.child {
+        background-color: black;
+    }
+}
+
+a {
+    color: lightsteelblue;
+}
+
+/* Navigation grid */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem auto 0;
+    padding: 1rem 0 0.75rem 0;
+    width: 100%;
+    flex-wrap: wrap;
+    border-top: 4px solid #fff;
+}
+
+.footer a:not(.btn--remix):link,
+a:not(.btn--remix):visited {
+    font-family: HK Grotesk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.1rem;
+    text-decoration: none;
+    border-style: none;
+}
+
+.footer a:hover {
+    background: var(--color-primary);
+}
+
+.footer .links {
+    padding: 0.5rem 1rem 1.5rem;
+    white-space: nowrap;
+}
+
+.footer .footer-content {
+    margin: 5px 20px;
+}
+
+.divider {
+    padding: 0 1rem;
+}
+
+/* Page structure */
+.wrapper {
+    min-height: var(--wrapper-height);
+    display: grid;
+    place-items: center;
+    margin: 0;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 1.6em;
+}
+
+.loading * {
+    display: none;
+}
+
+.hide-first {
+    display: none !important;
+}
+
+body.child .hide-on-child {
+    display: none;
+}
+
+body.self .hide-on-self {
+    display: none;
+}
