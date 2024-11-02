@@ -1,43 +1,77 @@
-<html>
+{% assign double_quote = '"' %}
+{% assign single_quote = "'" %}
+
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: " en" }}">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta content="text/html; charset='UTF-8'; http-equiv='Content-Type'" />
+    <meta name="title" content="{{page.title}}">
+    <meta name="description" content="{{page.description | replace: double_quote, single_quote}}">
     <meta name="twitter:card" content="player" />
-    <meta name="twitter:site" content="@sasori39883522" />
-    <meta name="twitter:text:title" content="{{page.title}}" />
-    <meta name="twitter:description" content="{{page.description}}" />
-    <meta name="twitter:player" content="{{page.plink}}" />
+    <meta name="twitter:site" content="@hinatacampaign" />
+    <meta name="twitter:text:title" content="{{page.title | replace: double_quote, single_quote}} (Eng Subs)" />
+    <meta name="twitter:description" content="{{page.description | replace: double_quote, single_quote}}" />
+    <meta name="twitter:player" content="{% if page.plink %}{{ page.plink }}{% else %}{{ site.url }}{{ page.url }}{% endif %}" />
     <meta name="twitter:player:width" content="960" />
     <meta name="twitter:player:height" content="600" />
     <meta name="twitter:image" content="{{page.thumbnail}}" />
+    <link rel="canonical" href="{% if page.plink %}{{ page.plink }}{% else %}{{ site.url }}{{ page.url }}{% endif %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 
-    <script>
-        // if (parent == self) window.location.href = 'https://amara.org/videos/{{page.id}}/{{page.lang}}/'
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src unsafe-inline 'self' data: *; frame-ancestors *;" /> -->
+
+    {% include head-custom.html %}
 
     <script type="text/javascript" src="https://amara.org/embedder-iframe"></script>
 
-    <link rel="stylesheet" href="/styles/style.css?v=1726335838" />
-    <title>{{page.title}}</title>
+    <link rel="stylesheet" href="{{ " /styles/style.css?v=" | append: site.github.build_revision | relative_url }}" />
+    <title>{{page.title}} (Eng Subs)</title>
 </head>
 
 <body class="page-subtitles">
     <div class="wrapper">
         <div class="container">
-            <h1 class="hide-first hide-on-child">{{ page.title }}</h1>
+            <h1 class="hide-first hide-on-child">{{ page.title }} (Eng Subs)</h1>
             <div class="amara-embed" data-video-id="{{page.id}}" data-initial-language="{{page.lang}}"
                 data-show-subtitles-default="true">
             </div>
             <div class="hide-first hide-on-child">
                 <p>{{ page.description | newline_to_br }}</p>
                 <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false">Share</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                {% if page.related_links %}
+                <div class="related">
+                    <h2>Related</h2>
+                    <ul>
+                        {% for link in page.related_links %}
+                        <li><a href="{{ link.path }}">{{ link.label }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
     <footer class="footer hide-first hide-on-child">
-        <div class="footer-content"><a target="_blank" href="https://x.com/sasori39883522">@sasori39883522</a></div>
+        <div class="footer-content">
+            <div>
+                <a target="_blank" href="https://x.com/sasori39883522">@sasori39883522</a>
+            </div>
+            <div>
+                <a target="_self" href="{{ site.url }}">Back to Home</a>
+            </div>
+            <div>
+                &nbsp;
+            </div>
+        </div>
     </footer>
-    <script src="/scripts/script.js?v=1726335838"></script>
+    <script src="{{ " /assets/js/scale.fix.js" | relative_url }}"></script>
+    <script src="{{ " /scripts/script.js?v=" | append: site.github.build_revision | relative_url }}"></script>
 </body>
 
 </html>

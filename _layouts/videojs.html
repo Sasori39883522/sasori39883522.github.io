@@ -1,39 +1,124 @@
-<html></html>
+{% assign double_quote = '"' %}
+{% assign single_quote = "'" %}
+
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: " en" }}">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta content="text/html; charset='UTF-8'; http-equiv='Content-Type'" />
+    <meta name="title" content="{{page.title}}">
+    <meta name="description" content="{{page.description | replace: double_quote, single_quote}}">
     <meta name="twitter:card" content="player" />
-    <meta name="twitter:site" content="@sasori39883522" />
-    <meta name="twitter:text:title" content="{{page.title}}" />
-    <meta name="twitter:description" content="{{page.description}}" />
-    <meta name="twitter:player" content="{{page.plink}}" />
+    <meta name="twitter:site" content="@hinatacampaign" />
+    <meta name="twitter:text:title" content="{{page.title | replace: double_quote, single_quote}} (Eng Subs)" />
+    <meta name="twitter:description" content="{{page.description | replace: double_quote, single_quote}}" />
+    <meta name="twitter:player" content="{% if page.plink %}{{ page.plink }}{% else %}{{ site.url }}{{ page.url }}{% endif %}" />
     <meta name="twitter:player:width" content="960" />
     <meta name="twitter:player:height" content="540" />
     <meta name="twitter:image" content="{{page.thumbnail}}" />
+    <link rel="canonical" href="{% if page.plink %}{{ page.plink }}{% else %}{{ site.url }}{{ page.url }}{% endif %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src unsafe-inline 'self' data: *; frame-ancestors *;" /> -->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/8.17.4/video-js.min.css"
         integrity="sha512-PUekH1zFIQeA2VaIZljiK1mpm3IzLP2JnzMndJSOEEYeQe1wnxSyO6NuBfXMPwaTnW7A5UBgIPHHzbG+betUVg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/styles/style.css?v=1726335838" />
-    <title>{{page.title}}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/videojs-logo@latest/dist/videojs-logo.css">
+    <link rel="stylesheet" href="{{ "/styles/style.css?v=" | append: site.github.build_revision | relative_url }}" />
+
+    <!-- <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "mainEntity": {
+                "@context": "https://schema.org/",
+                "@type": "VideoObject",
+                "name": "{{page.title}} (Eng Subs)",
+                "description":"{{page.description | replace: double_quote, single_quote}}",
+                "inLanguage": "ja",
+                "thumbnailUrl": "{{page.thumbnail}}",
+                "uploadDate": "{% if page.upload_date %}{{ page.upload_date }}{% else %}2024{% endif %}",
+                "caption": {
+                    "@context": "https://schema.org/",
+                    "@type": "MediaObject",
+                    "contentUrl": "{{ site.url }}/subs/{{ page.subtitles }}",
+                    {% assign subtitles_files = site.static_files | where: "name", page.subtitles %}{% for s in subtitles_files %}"dateModified": "{{ s.modified_time }}",{% endfor %}
+                    "encodingFormat": "text/vtt",
+                    "inLanguage": "en",
+                    "translator": {
+                        "@context" : "https://schema.org",
+                        "@type" : "Organization",
+                        "name": "Hinatazaka Campaign",
+                        "sameAs" : "http://x.com/hinatacampaign",
+                        "knowsAbout": "https://hinatazaka46.com"
+                    }
+                },
+                "embedUrl": "{{ page.video_url }}",
+                "about": {
+                    "@context": "https://schema.org",
+                    "@type": "MusicGroup",
+                    "name": "Hinatazaka46",
+                    "sameAs": "https://hinatazaka46.com",
+                    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Hinatazaka46_logo.svg/404px-Hinatazaka46_logo.svg.png"
+                }
+            }
+        }
+    </script> -->
+
+    {% include head-custom.html %}
+
+    <title>{{page.title}} (Eng Subs)</title>
 </head>
 
 <body class="page-subtitles">
     <div class="wrapper">
         <div class="container">
-            <h1 class="hide-first hide-on-child">{{ page.title }}</h1>
+            <h1 class="hide-first hide-on-child">{{ page.title }} (Eng Subs)</h1>
             <video id="vid1" class="video-js vjs-16-9" controls autoplay
                 data-setup='{ "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "{{ page.video_url }}"}], "enableDocumentPictureInPicture": true }'>
                 <track src="/subs/{{ page.subtitles }}" srclang="en" label="English" default />
+                {% if page.subtitles_id %}
+                <track src="/subs/{{ page.subtitles_id }}" srclang="id" label="Bahasa Indonesia" />
+                {% endif %}
+                {% if page.subtitles_commentary %}
+                <track src="/subs/{{ page.subtitles_commentary }}" srclang="en-com" label="Commentary" />
+                {% endif %}
             </video>
             <div class="hide-first hide-on-child">
                 <p>{{ page.description | newline_to_br }}</p>
-                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false">Share</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large"
+                    data-show-count="false">Share</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                {% if page.related_links %}
+                <div class="related">
+                    <h2>Related</h2>
+                    <ul>
+                        {% for link in page.related_links %}
+                        <li><a href="{{ link.path }}">{{ link.label }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
     <footer class="footer hide-first hide-on-child">
-        <div class="footer-content"><a target="_blank" href="https://x.com/sasori39883522">@sasori39883522</a></div>
+        <div class="footer-content">
+            <div>
+                <a target="_blank" href="https://x.com/hinatacampaign">@hinatacampaign</a>
+            </div>
+            <div>
+                <a target="_self" href="{{ site.url }}">Back to Home</a>
+            </div>
+            <div>
+                &nbsp;
+            </div>
+        </div>
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/8.17.4/video.min.js"
         integrity="sha512-a0xxvXMNKvm6s+vrkI+bBbrTCzMfuMZ7v1Oc1FFH1kbf5mxNxT+Ysh1V+g8y7Vuv5RhtQ+FGR4IVAwS1VSQBBQ=="
@@ -41,7 +126,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-youtube/3.0.1/Youtube.min.js"
         integrity="sha512-W11MwS4c4ZsiIeMchCx7OtlWx7yQccsPpw2dE94AEsZOa3pmSMbrcFjJ2J7qBSHjnYKe6yRuROHCUHsx8mGmhA=="
         crossorigin="anonymous"></script>
-    <script src="/scripts/script.js?v=1726335838"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-logo@latest/dist/videojs-logo.min.js"></script>
+    <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>
+    <script src="{{ "/scripts/script.js?v=" | append: site.github.build_revision | relative_url }}"></script>
 </body>
 
 </html>
