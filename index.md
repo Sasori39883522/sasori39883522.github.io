@@ -1,1 +1,1 @@
-Welcome
+I mostly do stuff on [WordPress](https://sasori39883522.wordpress.com) now
